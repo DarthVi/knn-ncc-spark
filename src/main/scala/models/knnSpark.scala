@@ -5,7 +5,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 import utils.Util
 
-class knnSpark {
+class knnSpark extends Serializable {
 
   def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): RDD[(List[Double], String)] =
   {

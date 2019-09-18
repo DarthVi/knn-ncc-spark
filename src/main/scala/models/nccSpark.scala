@@ -4,7 +4,7 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import utils.Util
 
-class nccSpark{
+class nccSpark extends Serializable{
 
   def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1) =
   {

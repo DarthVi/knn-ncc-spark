@@ -15,16 +15,37 @@ object Util {
 
   def readDataset(file: String, sc: SparkContext, minPartitions: Int = -1): RDD[(List[Double], String)] =
   {
-    val input = sc.textFile(file)
+    var input: RDD[String] = null
 
-    val classes: RDD[String] = input.map(_.split("\t").takeRight(1).mkString(""))
-    val vector = input.map(_.split("\t").dropRight(1).map(_.toDouble).toList)
-//    val classes: RDD[String] = input.map(_.split("\t").take(1).mkString(""))
-//    val vector = input.map(_.split("\t").drop(1).map(_.toDouble).toList)
+    if(minPartitions != -1)
+      input = sc.textFile(file, minPartitions)
+    else
+      input = sc.textFile(file)
+
+
+//    val classes: RDD[String] = input.map(_.split("\t").takeRight(1).mkString(""))
+//    val vector = input.map(_.split("\t").dropRight(1).map(_.toDouble).toList)
+    val classes: RDD[String] = input.map(_.split(",").take(1).mkString(""))
+    val vector = input.map(_.split(",").drop(1).map(_.toDouble).toList)
 
     val data = vector zip classes
 
     data
+  }
+
+  def readTestset(file: String, sc: SparkContext, minPartitions: Int = -1): (RDD[String], RDD[List[Double]]) =
+  {
+    val data = readDataset(file, sc, minPartitions)
+
+    val classes = data.map(_._2)
+    val vector = data.map(_._1)
+
+    (classes, vector)
+  }
+
+  def calculateAccuracy(v1: RDD[String], v2: RDD[String]): Double =
+  {
+    (v1 zip v2).map{case (a, b) => if (a == b) 1 else 0}.sum()/v1.count()
   }
 
   def sumListVector(l1: List[Double], l2: List[Double]): List[Double] =

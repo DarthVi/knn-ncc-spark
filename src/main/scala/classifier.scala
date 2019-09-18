@@ -1,7 +1,7 @@
 import java.io._
 
 import config.ConfigReader
-import org.apache.spark.SparkContext
+import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SparkSession
 import models.{knnSpark, nccSpark}
@@ -15,6 +15,7 @@ object classifier {
   val configReader = new ConfigReader()
 
   val fileName: String = configReader.getDatasetPath()
+  val testPath: String = configReader.getTestPath()
   val k: Int = configReader.getK()
 
   val randomX = new Random
@@ -48,46 +49,72 @@ object classifier {
   def main(args: Array[String]): Unit =
   {
 
-    val point = args.map(_.toDouble).toList
-    val configReader = new ConfigReader()
-
-    genFile()
+//    val point = args.map(_.toDouble).toList
+//    val configReader = new ConfigReader()
+//
+//    genFile()
 
     val clusterMode = configReader.getClusterMode()
     val minPartitions = configReader.getMinPartitions()
 
     var spark: SparkSession = null
 
-    if(!clusterMode)
-    {
-      spark = SparkSession.builder()
-        .appName("AprioriSpark")
-        .master("local[*]")
-        .getOrCreate()
+//    if(!clusterMode)
+//    {
+//      spark = SparkSession.builder()
+//        .appName("AprioriSpark")
+//        .master("local[*]")
+//        .getOrCreate()
+//    }
+//    else
+//    {
+//      spark = SparkSession.builder().appName("AprioriSpark").getOrCreate()
+//    }
+
+    var conf: SparkConf = null
+
+    if (!clusterMode) {
+
+      conf = new SparkConf().setAppName("knnSpark").setMaster("local[*]").set("spark.local.dir", "/home/vincenzo/sparktmp/")
+
+      //      spark = SparkSession.builder()
+      //        .appName("TweetsLDA")
+      //        .master("local[*]")
+      //        .getOrCreate()
     }
-    else
-    {
-      spark = SparkSession.builder().appName("AprioriSpark").getOrCreate()
+    else {
+      conf = new SparkConf().setAppName("knnSpark")
+      //spark = SparkSession.builder().appName("TweetsLDA").getOrCreate()
     }
 
-    val sc = spark.sparkContext
+    val sc = new SparkContext(conf)
     sc.setLogLevel("WARN")
 
     val knnSpark = new knnSpark
 
     val modelKnn = knnSpark.trainModel(fileName, sc, minPartitions)
 
-    val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)
+    val (testClasses, testVector) = Util.readTestset(testPath, sc, minPartitions)
 
-    println(s"Classification according to kNN: ${classificationKnn}")
+    val testVectorList = testVector.collect().toList
+
+    //val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)
+    val classificationKnn = testVectorList.map(knnSpark.classifyPoint(_, modelKnn, k))
+
+    val knnAccuracy = Util.calculateAccuracy(testClasses, sc.parallelize(classificationKnn))
+
+    println(s"Classification accuracy with kNN: ${knnAccuracy}")
 
     val nccSpark = new nccSpark
 
     val modelNcc = nccSpark.trainModel(fileName, sc, minPartitions)
 
-    val classificationNcc = nccSpark.classifyPoint(point, modelNcc)
+    //val classificationNcc = nccSpark.classifyPoint(point, modelNcc)
+    val classificationNcc = testVectorList.map(nccSpark.classifyPoint(_, modelNcc))
 
-    println(s"Classification according to NCC: ${classificationNcc}")
+    val nccAccuracy = Util.calculateAccuracy(testClasses, sc.parallelize(classificationNcc))
+
+    println(s"Classification accuracy with NCC: ${nccAccuracy}")
 
   }
 }

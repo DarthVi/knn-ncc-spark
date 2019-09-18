@@ -16,6 +16,11 @@ class ConfigReader {
     properties.getProperty("classifier.filepath")
   }
 
+  def getTestPath(): String =
+  {
+    properties.getProperty("classifier.testpath")
+  }
+
   def getK(): Int =
   {
     Integer.parseInt(properties.getProperty("knn.k"))
