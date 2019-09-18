@@ -20,7 +20,12 @@ class knnSpark extends Serializable {
 
     val topk = sortedDistances.zipWithIndex().filter(_._2 < k)
 
-    topk.map(_._1).map(entry => (entry._1, 1)).reduceByKey(_+_).sortBy(_._2, ascending = false).first()._1
+    val result = topk.map(_._1).map(entry => (entry._1, 1)).reduceByKey(_+_).sortBy(_._2, ascending = false).first()._1
+
+    //for debugging purposes, remember to remove
+    println(s"Point classified as ${result}")
+
+    result
   }
 
 }

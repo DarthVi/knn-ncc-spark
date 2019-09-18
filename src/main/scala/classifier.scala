@@ -96,6 +96,8 @@ object classifier {
 
     val (testClasses, testVector) = Util.readTestset(testPath, sc, minPartitions)
 
+    //cannot call rdd transformation and actions inside other rdd transformation and action due to SPARK-5063 error
+    //that's why we use a list here
     val testVectorList = testVector.collect().toList
 
     //val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)
@@ -110,9 +112,9 @@ object classifier {
     val modelNcc = nccSpark.trainModel(fileName, sc, minPartitions)
 
     //val classificationNcc = nccSpark.classifyPoint(point, modelNcc)
-    val classificationNcc = testVectorList.map(nccSpark.classifyPoint(_, modelNcc))
+    val classificationNcc = testVector.map(nccSpark.classifyPoint(_, modelNcc))
 
-    val nccAccuracy = Util.calculateAccuracy(testClasses, sc.parallelize(classificationNcc))
+    val nccAccuracy = Util.calculateAccuracy(testClasses, classificationNcc)
 
     println(s"Classification accuracy with NCC: ${nccAccuracy}")
 

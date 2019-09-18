@@ -45,7 +45,9 @@ object Util {
 
   def calculateAccuracy(v1: RDD[String], v2: RDD[String]): Double =
   {
-    (v1 zip v2).map{case (a, b) => if (a == b) 1 else 0}.sum()/v1.count()
+    //https://stackoverflow.com/questions/40405891/cant-zip-rdds-with-unequal-number-of-partitions-what-can-i-use-as-an-alternati
+    //trick to solve "can't zip RDDs with unequal number of partitions
+    v1.zipWithIndex.map(_.swap).join(v2.zipWithIndex.map(_.swap)).values.map{case (a, b) => if (a == b) 1 else 0}.sum()/v1.count()
   }
 
   def sumListVector(l1: List[Double], l2: List[Double]): List[Double] =
