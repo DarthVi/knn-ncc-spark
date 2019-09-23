@@ -76,14 +76,10 @@ object classifier {
     if (!clusterMode) {
 
       conf = new SparkConf().setAppName("knnSpark").setMaster("local[*]").set("spark.local.dir", "/home/vincenzo/sparktmp/")
-
-      //      spark = SparkSession.builder()
-      //        .appName("TweetsLDA")
-      //        .master("local[*]")
-      //        .getOrCreate()
+          .set("spark.hadoop.validateOutputSpecs", "false")
     }
     else {
-      conf = new SparkConf().setAppName("knnSpark")
+      conf = new SparkConf().setAppName("knnSpark").set("spark.hadoop.validateOutputSpecs", "false")
       //spark = SparkSession.builder().appName("TweetsLDA").getOrCreate()
     }
 
@@ -92,18 +88,33 @@ object classifier {
 
     val knnSpark = new knnSpark
 
+    var executionTime = 0.0
+    val t0 = System.currentTimeMillis()
+
     val modelKnn = knnSpark.trainModel(fileName, sc, minPartitions)
 
     val (testClasses, testVector) = Util.readTestset(testPath, sc, minPartitions)
 
     //cannot call rdd transformation and actions inside other rdd transformation and action due to SPARK-5063 error
     //that's why we use a list here
-    val testVectorList = testVector.collect().toList
+    val testVectorV = testVector.collect().toList
+    val classificationKnn: Array[String] = new Array[String](testVectorV.length)
+
+    for(i <- testVectorV.indices.par)
+    {
+      val resultI = knnSpark.classifyPoint(testVectorV(i), modelKnn, k)
+      classificationKnn(i) = resultI
+    }
 
     //val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)
-    val classificationKnn = testVectorList.map(knnSpark.classifyPoint(_, modelKnn, k))
+    //val classificationKnn = testVectorV.map(knnSpark.classifyPoint(_, modelKnn, k))
 
-    val knnAccuracy = Util.calculateAccuracy(testClasses, sc.parallelize(classificationKnn))
+    //save as text file
+    val classificationKnnRDD = sc.parallelize(classificationKnn)
+    classificationKnnRDD.zipWithIndex.map(_.swap).join(testVector.zipWithIndex.map(_.swap)).values.saveAsTextFile("classificationKnn.txt")
+
+
+    val knnAccuracy = Util.calculateAccuracy(testClasses, classificationKnnRDD)
 
     println(s"Classification accuracy with kNN: ${knnAccuracy}")
 
@@ -114,9 +125,15 @@ object classifier {
     //val classificationNcc = nccSpark.classifyPoint(point, modelNcc)
     val classificationNcc = testVector.map(nccSpark.classifyPoint(_, modelNcc))
 
+    //save as text file
+    (classificationNcc zip testVector).saveAsTextFile("classificationNcc.txt")
+
     val nccAccuracy = Util.calculateAccuracy(testClasses, classificationNcc)
 
     println(s"Classification accuracy with NCC: ${nccAccuracy}")
+
+    executionTime = System.currentTimeMillis() - t0
+    println(f"Elapsed time: ${executionTime / 1000d}%1.2f seconds. Class: ${getClass.getSimpleName}.")
 
   }
 }
