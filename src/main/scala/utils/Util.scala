@@ -59,4 +59,13 @@ object Util {
   {
     l.map(_ * scalar)
   }
+
+  def normalize(l: List[Double]) : List[Double] =
+  {
+    val norm: Double = Math.sqrt(l.map(x => x*x).sum)
+
+    val normalized = scalarPerVector(1.0/norm, l)
+
+    normalized
+  }
 }

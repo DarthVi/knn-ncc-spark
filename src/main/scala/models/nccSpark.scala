@@ -17,9 +17,9 @@ class nccSpark extends Serializable{
 
   }
 
-  def classifyPoint(point: List[Double], model: Map[String, List[Double]]): String =
+  def classifyPoint(p: List[Double], model: Map[String, List[Double]]): String =
   {
-    model.map{case (a, b) => (a, Util.euclideanDistance(point, b))}.toList.minBy(_._2)._1
+    model.map{case (a, b) => (a, Util.euclideanDistance(p, b))}.toList.minBy(_._2)._1
   }
 
 }

@@ -9,13 +9,15 @@ class knnSpark extends Serializable {
 
   def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): RDD[(List[Double], String)] =
   {
-    val data = Util.readDataset(file, sc, minPartitions)
+    val data = Util.readDataset(file, sc, minPartitions).map{case (l, str) => (Util.normalize(l), str)}
 
-    data.persist(StorageLevel.DISK_ONLY)
+    //data.persist(StorageLevel.MEMORY_AND_DISK)
+    data.cache()
   }
 
-  def classifyPoint(point: List[Double], data: RDD[(List[Double], String)], k: Int): String =
+  def classifyPoint(p: List[Double], data: RDD[(List[Double], String)], k: Int): String =
   {
+    val point = Util.normalize(p)
     val sortedDistances = data.map{case (a, b) => (b, Util.euclideanDistance(point, a))}.sortBy(_._2, ascending = true)
 
     val topk = sortedDistances.zipWithIndex().filter(_._2 < k)

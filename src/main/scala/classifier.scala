@@ -89,7 +89,7 @@ object classifier {
     val knnSpark = new knnSpark
 
     var executionTime = 0.0
-    val t0 = System.currentTimeMillis()
+    var t0 = System.currentTimeMillis()
 
     val modelKnn = knnSpark.trainModel(fileName, sc, minPartitions)
 
@@ -97,7 +97,7 @@ object classifier {
 
     //cannot call rdd transformation and actions inside other rdd transformation and action due to SPARK-5063 error
     //that's why we use a list here
-    val testVectorV = testVector.collect().toList
+    val testVectorV = testVector.collect().toVector
     val classificationKnn: Array[String] = new Array[String](testVectorV.length)
 
     for(i <- testVectorV.indices.par)
@@ -116,7 +116,13 @@ object classifier {
 
     val knnAccuracy = Util.calculateAccuracy(testClasses, classificationKnnRDD)
 
+
     println(s"Classification accuracy with kNN: ${knnAccuracy}")
+    executionTime = System.currentTimeMillis() - t0
+    println(f"Elapsed time: ${executionTime / 1000d}%1.2f seconds. Method: kNN.")
+
+    executionTime = 0.0
+    t0 = System.currentTimeMillis()
 
     val nccSpark = new nccSpark
 
@@ -133,7 +139,7 @@ object classifier {
     println(s"Classification accuracy with NCC: ${nccAccuracy}")
 
     executionTime = System.currentTimeMillis() - t0
-    println(f"Elapsed time: ${executionTime / 1000d}%1.2f seconds. Class: ${getClass.getSimpleName}.")
+    println(f"Elapsed time: ${executionTime / 1000d}%1.2f seconds. Method: NCC.")
 
   }
 }
