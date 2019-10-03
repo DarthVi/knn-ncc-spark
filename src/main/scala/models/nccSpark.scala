@@ -6,10 +6,10 @@ import utils.Util
 
 class nccSpark extends Serializable{
 
-  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1) =
+  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): Map[String, List[Double]] =
   {
     //read the data and normalize the vectors
-    val data: RDD[(List[Double], String)] = Util.readDataset(file, sc, minPartitions).map{case (l, str) => (Util.normalize(l), str)}
+    val data: RDD[(List[Double], String)] = Util.readDataset(file, sc, minPartitions)
     //for each class, calculate how many points belongs to it and save the result in a map
     val cardinalities: Map[String, Int] = data.groupBy(_._2).map{case (a, b) => (a, b.size)}.collect().toMap
     //apply the formula to calcolate the centroids: for each class, sum the components of all the points belonging to it
@@ -21,9 +21,8 @@ class nccSpark extends Serializable{
 
   def classifyPoint(p: List[Double], model: Map[String, List[Double]]): String =
   {
-    val point = Util.normalize(p)
     //for each centroid calculate the distance from the point and take the minimum
-    model.map{case (a, b) => (a, Util.euclideanDistance(point, b))}.toList.minBy(_._2)._1
+    model.map{case (a, b) => (a, Util.euclideanDistance(p, b))}.toList.minBy(_._2)._1
   }
 
 }
