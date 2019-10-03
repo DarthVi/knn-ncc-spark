@@ -60,12 +60,46 @@ object Util {
     l.map(_ * scalar)
   }
 
-  def normalize(l: List[Double]) : List[Double] =
+  def norm(l: List[Double]) : List[Double] =
   {
     val norm: Double = Math.sqrt(l.map(x => x*x).sum)
 
     val normalized = scalarPerVector(1.0/norm, l)
 
     normalized
+  }
+
+  def normalize(data: RDD[(List[Double], String)]) : RDD[(List[Double], String)] =
+  {
+    val vectors = data.map(_._1.toVector)
+    val classes = data.map(_._2)
+    val vLength = vectors.take(1).head.length
+
+    val minS = new Array[Double](vLength)
+    val maxS = new Array[Double](vLength)
+    val meanS = new Array[Double](vLength)
+
+    for(i <- 0 until vLength)
+    {
+      minS(i) = vectors.map(x => x(i)).min()
+      maxS(i) = vectors.map(x => x(i)).max()
+      meanS(i) = vectors.map(x => x(i)).mean()
+    }
+
+    val normalizedVectors = vectors.map{x => {
+      val normS = new Array[Double](x.length)
+      for(i <- x.indices)
+        {
+          normS(i) = (x(i) - meanS(i))/(maxS(i) - minS(i))
+        }
+      normS.toVector
+    }}
+
+    val normalizedList = normalizedVectors.map(_.toList)
+
+    normalizedList zip classes
+
+
+
   }
 }
