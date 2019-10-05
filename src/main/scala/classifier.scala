@@ -51,8 +51,7 @@ object classifier {
 
     for(i <- testVectorV.indices.par)
     {
-      val resultI = knnSpark.classifyPoint(testVectorV(i), modelKnn, k)
-      classificationKnn(i) = resultI
+      classificationKnn(i) = knnSpark.classifyPoint(testVectorV(i), modelKnn, k)
     }
 
     //val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)

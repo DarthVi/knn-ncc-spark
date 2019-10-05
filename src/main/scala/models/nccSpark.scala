@@ -11,7 +11,8 @@ class nccSpark extends Serializable{
     //read the data and normalize the vectors
     val data: RDD[(List[Double], String)] = Util.readDataset(file, sc, minPartitions)
     //for each class, calculate how many points belongs to it and save the result in a map
-    val cardinalities: Map[String, Int] = data.groupBy(_._2).map{case (a, b) => (a, b.size)}.collect().toMap
+    //val cardinalities: Map[String, Int] = data.groupBy(_._2).map{case (a, b) => (a, b.size)}.collect().toMap
+    val cardinalities: Map[String, Int] = data.map{case (a, b) => (b, 1)}.reduceByKey(_+_).collect().toMap
     //apply the formula to calcolate the centroids: for each class, sum the components of all the points belonging to it
     //and then divide by the cardinality of the class
     data.map{case (a, b) => (b, a)}.reduceByKey(Util.sumListVector)
