@@ -1,4 +1,4 @@
-name := "knnSpark"
+name := "knn-ncc-spark"
 
 version := "1.0"
 
