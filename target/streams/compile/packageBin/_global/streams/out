@@ -1,4 +1,4 @@
-[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/knnspark_2.11-0.1.jar ...[0m
+[0m[[0m[0mdebug[0m] [0m[0mPackaging /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/knn-ncc-spark_2.11-1.0.jar ...[0m
 [0m[[0m[0mdebug[0m] [0m[0mInput file mappings:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes[0m
@@ -8,26 +8,44 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$sumListVector$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$sumListVector$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$normalize$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$normalize$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$8.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$8.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$calculateAccuracy$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$calculateAccuracy$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$9.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$9.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$euclideanDistance$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$euclideanDistance$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$3$$anonfun$apply$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$3$$anonfun$apply$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$3.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$scalarPerVector$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$scalarPerVector$1.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$3$$anonfun$apply$1.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$3$$anonfun$apply$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$normalize$1$$anonfun$apply$mcVI$sp$2.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$6.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$6.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$5.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$5.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$calculateAccuracy$3.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$calculateAccuracy$3.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$8$$anonfun$apply$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$8$$anonfun$apply$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$3.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$3.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$4.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$4.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$7.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$7.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$calculateAccuracy$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/utils/Util$$anonfun$calculateAccuracy$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	utils/Util$$anonfun$1.class[0m
@@ -42,8 +60,6 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/classifier.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models[0m
-[0m[[0m[0mdebug[0m] [0m[0m	models/knnSpark$$anonfun$8.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/knnSpark$$anonfun$8.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark$$anonfun$trainModel$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/nccSpark$$anonfun$trainModel$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark.class[0m
@@ -64,8 +80,6 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/knnSpark$$anonfun$5.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark$$anonfun$trainModel$2.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/nccSpark$$anonfun$trainModel$2.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark$$anonfun$3.class[0m
-[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/nccSpark$$anonfun$3.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/knnSpark.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/knnSpark.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark$$anonfun$classifyPoint$1.class[0m
