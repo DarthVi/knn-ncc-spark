@@ -45,4 +45,19 @@ class ConfigReader {
   {
     properties.getProperty("genfile.distance").toDouble
   }
+
+  def getKnnSaveLocation(): String =
+  {
+    properties.getProperty("classifier.knnSaveLocation")
+  }
+
+  def getNccSaveLocation(): String =
+  {
+    properties.getProperty("classifier.nccSaveLocation")
+  }
+
+  def close(): Unit =
+  {
+    propResource.close()
+  }
 }

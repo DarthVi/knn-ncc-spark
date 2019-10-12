@@ -12,6 +12,9 @@ object classifier {
   val testPath: String = configReader.getTestPath()
   val k: Int = configReader.getK()
 
+  val knnSaveLocation: String = configReader.getKnnSaveLocation()
+  val nccSaveLocation: String = configReader.getNccSaveLocation()
+
   def main(args: Array[String]): Unit =
   {
 
@@ -59,7 +62,7 @@ object classifier {
 
     //save as text file
     val classificationKnnRDD = sc.parallelize(classificationKnn)
-    classificationKnnRDD.zipWithIndex.map(_.swap).join(testVector.zipWithIndex.map(_.swap)).values.saveAsTextFile("classificationKnn.txt")
+    classificationKnnRDD.zipWithIndex.map(_.swap).join(testVector.zipWithIndex.map(_.swap)).values.saveAsTextFile(knnSaveLocation)
 
 
     val knnAccuracy = Util.calculateAccuracy(testClasses, classificationKnnRDD)
@@ -80,7 +83,7 @@ object classifier {
     val classificationNcc = testVector.map(nccSpark.classifyPoint(_, modelNcc))
 
     //save as text file
-    (classificationNcc zip testVector).saveAsTextFile("classificationNcc.txt")
+    (classificationNcc zip testVector).saveAsTextFile(nccSaveLocation)
 
     val nccAccuracy = Util.calculateAccuracy(testClasses, classificationNcc)
 
@@ -88,6 +91,8 @@ object classifier {
 
     executionTime = System.currentTimeMillis() - t0
     println(f"Elapsed time: ${executionTime / 1000d}%1.2f seconds. Method: NCC.")
+
+    configReader.close()
 
   }
 }
