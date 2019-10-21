@@ -4,9 +4,11 @@ import org.apache.spark.SparkContext
 import org.apache.spark.rdd.RDD
 import utils.Util
 
-class nccSpark extends Serializable{
+class nccSpark extends Serializable with ClassifierModel {
 
-  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): Map[String, List[Double]] =
+  var model: Map[String, List[Double]] = _
+
+  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): Unit =
   {
     //read the data and normalize the vectors
     val data: RDD[(List[Double], String)] = Util.readDataset(file, sc, minPartitions)
@@ -15,12 +17,12 @@ class nccSpark extends Serializable{
     val cardinalities: Map[String, Int] = data.map{case (a, b) => (b, 1)}.reduceByKey(_+_).collect().toMap
     //apply the formula to calcolate the centroids: for each class, sum the components of all the points belonging to it
     //and then divide by the cardinality of the class
-    data.map{case (a, b) => (b, a)}.reduceByKey(Util.sumListVector)
+    model = data.map{case (a, b) => (b, a)}.reduceByKey(Util.sumListVector)
       .map{case (a, b) => (a, Util.scalarPerVector(1.toDouble/cardinalities(a).toDouble, b))}.collect().toMap
 
   }
 
-  def classifyPoint(p: List[Double], model: Map[String, List[Double]]): String =
+  def classifyPoint(p: List[Double]): String =
   {
     //for each centroid calculate the distance from the point and take the minimum
     model.map{case (a, b) => (a, Util.euclideanDistance(p, b))}.toList.minBy(_._2)._1

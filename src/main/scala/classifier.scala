@@ -38,12 +38,12 @@ object classifier {
     val sc = new SparkContext(conf)
     sc.setLogLevel("WARN")
 
-    val knnSpark = new knnSpark
+    val knnSpark = new knnSpark(k)
 
     var executionTime = 0.0
     var t0 = System.currentTimeMillis()
 
-    val modelKnn = knnSpark.trainModel(fileName, sc, minPartitions)
+    knnSpark.trainModel(fileName, sc, minPartitions)
 
     val (testClasses, testVector) = Util.readTestset(testPath, sc, minPartitions)
 
@@ -54,7 +54,7 @@ object classifier {
 
     for(i <- testVectorV.indices.par)
     {
-      classificationKnn(i) = knnSpark.classifyPoint(testVectorV(i), modelKnn, k)
+      classificationKnn(i) = knnSpark.classifyPoint(testVectorV(i))
     }
 
     //val classificationKnn = knnSpark.classifyPoint(point, modelKnn, k)
@@ -77,10 +77,10 @@ object classifier {
 
     val nccSpark = new nccSpark
 
-    val modelNcc = nccSpark.trainModel(fileName, sc, minPartitions)
+    nccSpark.trainModel(fileName, sc, minPartitions)
 
     //val classificationNcc = nccSpark.classifyPoint(point, modelNcc)
-    val classificationNcc = testVector.map(nccSpark.classifyPoint(_, modelNcc))
+    val classificationNcc = testVector.map(nccSpark.classifyPoint)
 
     //save as text file
     (classificationNcc zip testVector).saveAsTextFile(nccSaveLocation)

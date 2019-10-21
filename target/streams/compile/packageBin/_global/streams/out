@@ -60,8 +60,12 @@
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/classifier.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models[0m
+[0m[[0m[0mdebug[0m] [0m[0m	models/ClassifierModel.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/ClassifierModel.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark$$anonfun$trainModel$1.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/nccSpark$$anonfun$trainModel$1.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	models/ClassifierModel$class.class[0m
+[0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/ClassifierModel$class.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/nccSpark.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	  /home/vincenzo/IdeaProjects/knnSpark/target/scala-2.11/classes/models/nccSpark.class[0m
 [0m[[0m[0mdebug[0m] [0m[0m	models/knnSpark$$anonfun$6.class[0m

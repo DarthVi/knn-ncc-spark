@@ -5,18 +5,20 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.storage.StorageLevel
 import utils.Util
 
-class knnSpark extends Serializable {
+class knnSpark(val k: Int) extends Serializable with ClassifierModel {
 
-  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): RDD[(List[Double], String)] =
+  var data: RDD[(List[Double], String)] = _
+
+  def trainModel(file: String, sc: SparkContext, minPartitions: Int = -1): Unit =
   {
     //read the data and normalize all the vectors
-    val data = Util.readDataset(file, sc, minPartitions)
+    data = Util.readDataset(file, sc, minPartitions)
 
     //data.persist(StorageLevel.MEMORY_AND_DISK)
     data.cache()
   }
 
-  def classifyPoint(p: List[Double], data: RDD[(List[Double], String)], k: Int): String =
+  def classifyPoint(p: List[Double]): String =
   {
     //calculate all the distances of the point from the other points and sort the results in ascending order
     val sortedDistances = data.map{case (a, b) => (b, Util.euclideanDistance(p, a))}.sortBy(_._2, ascending = true)
